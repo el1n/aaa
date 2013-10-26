@@ -1,0 +1,1 @@
+<?=(getenv("REMOTE_ADDR"))?>

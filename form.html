@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<SCRIPT TYPE="text/javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript">
+function f(a)
+{
+	$("TR:VISIBLE").remove();
+
+	for(var i = 0;i < a.length;++i){
+		$("TABLE").append((
+			$(".f").clone(1).prop("class",i).css("display","")
+			.find(".m").val(a[i].method).end()
+			.find(".a").val(a[i].action).end()
+		));
+		add($("."+i+":last"),a[i].inputs)
+		gen(i);
+	}
+}
+
+function add(p,param)
+{
+	for(var i = 0;i < param.length;++i)
+		p.before((
+			$(".p").clone(1).prop("class",p.prop("class")).css("display","")
+			.find("INPUT").val(function(j,a){return([param[i].name,param[i].value][j] || a)}).end()
+		));
+}
+
+function gen(i)
+{
+	(p = $(".u","."+i)).val("http://util.mikomoe.jp/red.php");
+	$("."+i).find(".m,.a,.q").each(function(i){
+		p.get(0).value += (i !== 2 ? ["/","/","&","="][Math.min(1,i >> 1) * 2 + i % 2] : "?")
+		p.get(0).value += $(this).val();
+	});
+}
+</SCRIPT>
+<SCRIPT TYPE="text/javascript">
+$(window).ready(function(){
+	$("INPUT[VALUE='...']").click(function(){$.getJSON("form.cgi/" + $("#uri").val(),f)});
+	$("INPUT:NOT(.u)").keyup(function(){gen($(this).parents("TR").prop("class"))});
+	$("INPUT[VALUE='+']").click(function(){add($(this).parents("TR"),[{}])});
+	$("INPUT[VALUE='-']").click(function(){$(this).parents("TR").remove()});
+});
+</SCRIPT>
+</HEAD>
+<BODY>
+<INPUT ID="uri" TYPE="text" NAME="" VALUE="" STYLE="width:200px">
+<INPUT TYPE="button" NAME="" VALUE="...">
+<TABLE>
+	<TR CLASS="f" STYLE="display:none">
+		<TD COLSPAN="3">
+			<INPUT CLASS="u" STYLE="width:100%">
+	<TR CLASS="f" STYLE="display:none">
+		<TD COLSPAN="3">
+			<SELECT CLASS="m" STYLE="width:20%">
+				<OPTION>GET
+				<OPTION>POST
+			</SELECT>
+			<INPUT CLASS="a" STYLE="width:70%">
+	<TR CLASS="f" STYLE="display:none">
+		<TD COLSPAN="3">
+		<TD>
+			<INPUT TYPE="button" VALUE="-" DISABLED>
+		<TD>
+			<INPUT TYPE="button" VALUE="+">
+	<TR CLASS="p" STYLE="display:none">
+		<TD>
+			<INPUT CLASS="q">
+		<TD>
+			<SPAN>=</SPAN>
+		<TD>
+			<INPUT CLASS="q">
+		<TD>
+			<INPUT TYPE="button" VALUE="-">
+		<TD>
+			<INPUT TYPE="button" VALUE="+">
+</TABLE>
+</BODY>
+</HTML>
