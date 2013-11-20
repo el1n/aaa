@@ -31,7 +31,7 @@ function gen(i)
 	(p = $(".u","."+i)).val("http://util.mikomoe.jp/red.php");
 	$("."+i).find(".m,.a,.q").each(function(i){
 		p.get(0).value += (i !== 2 ? ["/","/","&","="][Math.min(1,i >> 1) * 2 + i % 2] : "?")
-		p.get(0).value += $(this).val();
+		p.get(0).value += escape($(this).val());
 	});
 }
 </SCRIPT>
